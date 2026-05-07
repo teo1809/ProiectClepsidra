@@ -1,0 +1,215 @@
+﻿#include <windows.h>  
+#include "glos.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include "GLAux.h"
+#include <math.h>
+
+void myinit(void);
+void CALLBACK display(void);
+void CALLBACK myReshape(GLsizei w, GLsizei h);
+void CALLBACK MutaStanga(void);
+void CALLBACK MutaDreapta(void);
+void CALLBACK MutaSus(void);
+void CALLBACK MutaJos(void);
+void CALLBACK RotireSus(AUX_EVENTREC* event);
+void CALLBACK RotireJos(AUX_EVENTREC* event);
+
+GLUquadricObj* obj;
+static GLfloat x = 0;
+static GLfloat y = 0;
+static GLfloat alfa = 45.0;
+
+void myinit(void) {
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glEnable(GL_DEPTH_TEST); 
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
+}
+void CALLBACK MutaStanga(void) { x = x - 10; }
+void CALLBACK MutaDreapta(void) { x = x + 10; }
+void CALLBACK MutaSus(void) { y = y + 10; }
+void CALLBACK MutaJos(void) { y = y - 10; }
+void CALLBACK RotireSus(AUX_EVENTREC* event) { alfa = alfa + 10; }
+void CALLBACK RotireJos(AUX_EVENTREC* event) { alfa = alfa - 10; }
+
+
+//void CALLBACK display(void)
+//{
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    obj = gluNewQuadric();
+//    glLoadIdentity();
+//
+//    glTranslatef(x, y, 0.0);
+//    glRotatef(alfa, 1.0, 0.0, 0.0);
+//
+//    gluQuadricDrawStyle(obj, GLU_FILL);
+//    gluQuadricNormals(obj, GLU_SMOOTH);
+//
+//
+//    glPushMatrix();
+//    glColor3f(0.7f, 0.7f, 0.8f); 
+//    glTranslatef(0, 0, -60);
+//    gluCylinder(obj, 30, 0, 60, 64, 10);
+//    gluDisk(obj, 0, 30, 64, 1);
+//
+//    
+//  
+//    glColor3f(0.4f, 0.2f, 0.0f); 
+//    glTranslatef(0, 0, -5);
+//
+//    gluDisk(obj, 0, 45, 64, 1);
+//    gluCylinder(obj, 45, 45, 5, 64, 1);
+//    glTranslatef(0, 0, 5);
+//    gluDisk(obj, 0, 45, 64, 1);
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glColor3f(0.7f, 0.7f, 0.8f); 
+//    gluCylinder(obj, 0, 30, 60, 64, 10);
+//
+//    glTranslatef(0, 0, 60);
+//    gluDisk(obj, 0, 30, 64, 1); 
+//
+//    glColor3f(0.4f, 0.2f, 0.0f);
+//    gluDisk(obj, 0, 45, 64, 1);
+//
+//    gluCylinder(obj, 45, 45, 5, 64, 1);
+//    glTranslatef(0, 0, 5);
+//    gluDisk(obj, 0, 45, 64, 1);
+//    glPopMatrix();
+//
+//
+//    glColor3f(0.4f, 0.2f, 0.0f); 
+//
+//
+//    glPushMatrix();
+//    glTranslatef(-40, 0, -60);
+//    gluCylinder(obj, 2, 2, 120, 20, 1);
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glTranslatef(40, 0, -60);
+//    gluCylinder(obj, 2, 2, 120, 20, 1);
+//    glPopMatrix();
+//
+//    auxSwapBuffers();
+//}
+
+
+void CALLBACK display(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    obj = gluNewQuadric();
+    glLoadIdentity();
+
+    glTranslatef(x, y, 0.0);
+    glRotatef(alfa, 1.0, 0.0, 0.0);
+
+    gluQuadricDrawStyle(obj, GLU_FILL);
+    gluQuadricNormals(obj, GLU_SMOOTH);
+
+    glPushMatrix();
+    glColor3f(0.6f, 0.6f, 0.7f);
+    glTranslatef(0, 0, -2);
+    gluCylinder(obj, 1.5, 1.5, 4, 32, 1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0.7f, 0.7f, 0.8f);
+    glTranslatef(0, 0, -62);
+    gluCylinder(obj, 30, 30, 10, 64, 10);
+    glTranslatef(0, 0, 10);
+    gluCylinder(obj, 30, 1.5, 50, 64, 10);
+    glTranslatef(0, 0, -10);
+    gluDisk(obj, 0, 30, 64, 1);
+
+    glColor3f(0.4f, 0.2f, 0.0f);
+    glTranslatef(0, 0, -5);
+    gluDisk(obj, 0, 45, 64, 1);
+    gluCylinder(obj, 45, 45, 5, 64, 1);
+    glTranslatef(0, 0, 5);
+    gluDisk(obj, 0, 45, 64, 1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0.7f, 0.7f, 0.8f);
+    glTranslatef(0, 0, 2);
+    gluCylinder(obj, 1.5, 30, 50, 64, 10);
+    glTranslatef(0, 0, 50);
+    gluCylinder(obj, 30, 30, 10, 64, 10);
+    glTranslatef(0, 0, 10);
+    gluDisk(obj, 0, 30, 64, 1);
+
+    glColor3f(0.4f, 0.2f, 0.0f);
+    gluDisk(obj, 0, 45, 64, 1);
+    gluCylinder(obj, 45, 45, 5, 64, 1);
+    glTranslatef(0, 0, 5);
+    gluDisk(obj, 0, 45, 64, 1);
+    glPopMatrix();
+
+    glColor3f(0.4f, 0.2f, 0.0f);
+
+    glPushMatrix();
+    glTranslatef(-40, 0, -65);
+    gluCylinder(obj, 2, 2, 130, 20, 1);
+    glPushMatrix();
+    gluSphere(obj, 5, 20, 20);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0, 0, 130);
+    gluSphere(obj, 5, 20, 20);
+    glPopMatrix();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(40, 0, -65);
+    gluCylinder(obj, 2, 2, 130, 20, 1);
+    glPushMatrix();
+    gluSphere(obj, 5, 20, 20);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0, 0, 130);
+    gluSphere(obj, 5, 20, 20);
+    glPopMatrix();
+    glPopMatrix();
+
+    auxSwapBuffers();
+    gluDeleteQuadric(obj);
+}
+
+void CALLBACK myReshape(GLsizei w, GLsizei h)
+{
+    if (!h) return;
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    if (w <= h)
+        glOrtho(-160.0, 160.0, -160.0 * (GLfloat)h / (GLfloat)w,
+            160.0 * (GLfloat)h / (GLfloat)w, -160.0, 160.0);
+    else
+        glOrtho(-160.0 * (GLfloat)w / (GLfloat)h,
+            160.0 * (GLfloat)w / (GLfloat)h, -160.0, 160.0, -160.0, 160.0);
+
+    glMatrixMode(GL_MODELVIEW);
+}
+int main(int argc, char** argv)
+{
+    auxInitDisplayMode(AUX_DOUBLE | AUX_RGB | AUX_DEPTH); 
+    auxInitPosition(0, 0, 300, 200);
+    auxInitWindow("Clepsidra");
+    myinit();
+
+    auxKeyFunc(AUX_LEFT, MutaStanga);
+    auxKeyFunc(AUX_RIGHT, MutaDreapta);
+    auxKeyFunc(AUX_UP, MutaSus);
+    auxKeyFunc(AUX_DOWN, MutaJos);
+
+    auxMouseFunc(AUX_LEFTBUTTON, AUX_MOUSEDOWN, RotireSus);
+    auxMouseFunc(AUX_RIGHTBUTTON, AUX_MOUSEDOWN, RotireJos);
+
+    auxReshapeFunc(myReshape);
+    auxMainLoop(display);
+    return(0);
+}
