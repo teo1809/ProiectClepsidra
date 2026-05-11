@@ -27,6 +27,8 @@ void myinit(void) {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 void CALLBACK MutaStanga(void) { x = x - 10; }
 void CALLBACK MutaDreapta(void) { x = x + 10; }
@@ -218,16 +220,38 @@ void CALLBACK display(void)
     gluQuadricDrawStyle(obj, GLU_FILL);
     gluQuadricNormals(obj, GLU_SMOOTH);
 
+    // --- FIRUL DE NISIP ---
+    glPushMatrix();
+    glColor3f(0.9f, 0.7f, 0.2f);
+    glTranslatef(0, 0, -6);
+    gluCylinder(obj, 1.0, 1.0, 30, 10, 3); 
+    glPopMatrix();
+
     // GATUL CLEPSIDREI (CILINDRUL MIC CENTRAL)
     glPushMatrix();
-    glColor3f(0.6f, 0.6f, 0.7f);
+    glColor4f(0.7f, 0.7f, 0.8f, 0.4f);
     glTranslatef(0, 0, -2);
     gluCylinder(obj, 2.5, 2.5, 5, 32, 5);
     glPopMatrix();
 
+
+    // --- NISIP SUS ---
+    glPushMatrix();
+    glColor3f(0.9f, 0.7f, 0.2f);
+    glTranslatef(0, 0, -4);
+    glRotatef(180, 1, 0, 0); 
+    gluCylinder(obj, 2.5, 20, 20, 64, 1);
+
+    // Capacul de sus al nisipului (să pară plin)
+    glTranslatef(0, 0, 20);
+    gluDisk(obj, 0, 20, 64, 1);
+    glPopMatrix();
+
+
     // CORPUL DE SUS (STICLA CONICA + BAZA LEMN SUS)
     glPushMatrix();
-    glColor3f(0.7f, 0.7f, 0.8f);
+   // glColor3f(0.7f, 0.7f, 0.8f);
+    glColor4f(0.7f, 0.7f, 0.8f, 0.4f);
     glTranslatef(0, 0, -62);
     gluCylinder(obj, 30, 30, 30, 64, 10);
     glTranslatef(0, 0, 30);
@@ -243,9 +267,30 @@ void CALLBACK display(void)
     gluDisk(obj, 0, 45, 64, 1);
     glPopMatrix();
     
+    // --- NISIP JOS ---
+    glPushMatrix();
+    glColor3f(0.9f, 0.7f, 0.2f);
+    // Ne mutăm la baza de jos (unde începe sticla cilindrică)
+    // Sticla de jos începe la Z=2 și are un cilindru de 30 unități la final
+    glTranslatef(0, 0, 40);
+
+    // Desenăm stratul de nisip (cilindru cu raza 29, înălțime 10)
+    gluCylinder(obj, 29, 29, 20, 64, 1);
+
+    // "Capacul" nisipului de jos
+    glTranslatef(0, 0, 10);
+    gluDisk(obj, 0, 29, 64, 1);
+
+    // Fundul nisipului (opțional, dar bun pentru rotații)
+    glTranslatef(0, 0, -10);
+    gluDisk(obj, 0, 29, 64, 1);
+    glPopMatrix();
+
+
     // CORPUL DE JOS (STICLA CONICA + BAZA LEMN JOS)
     glPushMatrix();
-    glColor3f(0.7f, 0.7f, 0.8f);
+   // glColor3f(0.7f, 0.7f, 0.8f);
+    glColor4f(0.7f, 0.7f, 0.8f, 0.4f);
     glTranslatef(0, 0, 2);
     gluCylinder(obj, 2.5, 30, 30, 64, 10);
     glTranslatef(0, 0, 30);
@@ -262,7 +307,7 @@ void CALLBACK display(void)
 
     glColor3f(0.4f, 0.2f, 0.0f);
 
-    // TIJA LATERALA 1 (STÂNGA) CU BILE LA CAPETE
+    // TIJA LATERALA 1 (STANGA) +bile
     glPushMatrix();
     glTranslatef(-40, 0, -65);
     gluCylinder(obj, 2, 2, 130, 20, 1);
@@ -275,7 +320,7 @@ void CALLBACK display(void)
     glPopMatrix();
     glPopMatrix();
 
-    // TIJA LATERALA 2 (DREAPTA) CU BILE LA CAPETE
+    // TIJA LATERALA 2 (DREAPTA) +bile
     glPushMatrix();
     glTranslatef(40, 0, -65);
     gluCylinder(obj, 2, 2, 130, 20, 1);
@@ -288,7 +333,7 @@ void CALLBACK display(void)
     glPopMatrix();
     glPopMatrix();
 
-    // TIJA LATERALA 3 (FAȚĂ) CU BILE LA CAPETE
+    // TIJA LATERALA 3 (FATA) + bile
     glPushMatrix();
     glTranslatef(0, 40, -65);
     gluCylinder(obj, 2, 2, 130, 20, 1);
@@ -299,7 +344,7 @@ void CALLBACK display(void)
     glPopMatrix();
     glPopMatrix();
 
-    // TIJA LATERALA 4 (SPATE) CU BILE LA CAPETE
+    // TIJA LATERALA 4 (SPATE) + bile
     glPushMatrix();
     glTranslatef(0, -40, -65);
     gluCylinder(obj, 2, 2, 130, 20, 1);
@@ -312,6 +357,7 @@ void CALLBACK display(void)
 
     auxSwapBuffers();
     gluDeleteQuadric(obj);
+
 }
 
 void CALLBACK myReshape(GLsizei w, GLsizei h)
