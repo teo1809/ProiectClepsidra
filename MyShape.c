@@ -238,7 +238,7 @@ void CALLBACK display(void)
     // --- NISIP SUS ---
     glPushMatrix();
     glColor3f(0.9f, 0.7f, 0.2f);
-    glTranslatef(0, 0, -4);
+    glTranslatef(0, 0, -5);
     glRotatef(180, 1, 0, 0); 
     gluCylinder(obj, 2.5, 20, 20, 64, 1);
 
@@ -275,15 +275,15 @@ void CALLBACK display(void)
     glTranslatef(0, 0, 40);
 
     // Desenăm stratul de nisip (cilindru cu raza 29, înălțime 10)
-    gluCylinder(obj, 29, 29, 20, 64, 1);
+    gluCylinder(obj, 27, 27, 20, 64, 1);
 
     // "Capacul" nisipului de jos
     glTranslatef(0, 0, 10);
-    gluDisk(obj, 0, 29, 64, 1);
+    gluDisk(obj, 0, 27, 64, 1);
 
     // Fundul nisipului (opțional, dar bun pentru rotații)
     glTranslatef(0, 0, -10);
-    gluDisk(obj, 0, 29, 64, 1);
+    gluDisk(obj, 0, 27, 64, 1);
     glPopMatrix();
 
 
